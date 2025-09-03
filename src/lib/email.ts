@@ -1,4 +1,4 @@
-// Email service for IFHE Campus Assistant Portal
+// Email service for Campus Assistant Portal
 import type { CloudflareBindings, Registration, Event } from '../types';
 
 export class EmailService {
@@ -47,7 +47,7 @@ export class EmailService {
 
   // Send registration confirmation email
   async sendRegistrationConfirmation(registration: Registration, event?: Event): Promise<boolean> {
-    const subject = `Registration Confirmation - ${event?.title || 'IFHE Event'}`;
+    const subject = `Registration Confirmation - ${event?.title || 'Campus Event'}`;
     
     const htmlContent = `
 <!DOCTYPE html>
@@ -68,7 +68,7 @@ export class EmailService {
 <body>
     <div class="container">
         <div class="header">
-            <h1>🎓 IFHE Hyderabad</h1>
+            <h1>🎓 Campus Assistant</h1>
             <h2>Registration Confirmed!</h2>
         </div>
         
@@ -112,9 +112,9 @@ export class EmailService {
         </div>
         
         <div class="footer">
-            <p>© 2024 Indian School of Business & Finance (IFHE), Hyderabad</p>
-            <p>This is an automated message from IFHE Campus Assistant Portal</p>
-            <p>If you have questions, contact us at info@ifheindia.org</p>
+            <p>© 2024 Campus Assistant Portal</p>
+            <p>This is an automated message from Campus Assistant Portal</p>
+            <p>If you have questions, contact your campus administration</p>
         </div>
     </div>
 </body>
@@ -125,8 +125,8 @@ export class EmailService {
 
   // Send admin notification for new registration
   async sendAdminNotification(registration: Registration, event?: Event): Promise<boolean> {
-    const adminEmail = 'admin@ifheindia.org'; // Configure this in environment
-    const subject = `New Registration: ${event?.title || 'IFHE Event'}`;
+    const adminEmail = 'admin@campus.edu'; // Configure this in environment
+    const subject = `New Registration: ${event?.title || 'Campus Event'}`;
     
     const htmlContent = `
 <!DOCTYPE html>
@@ -213,7 +213,7 @@ export class EmailService {
             
             <p>We look forward to seeing you there!</p>
             
-            <p>Best regards,<br>IFHE Hyderabad Team</p>
+            <p>Best regards,<br>Campus Assistant Team</p>
         </div>
     </div>
 </body>
@@ -224,7 +224,7 @@ export class EmailService {
 
   // Test email configuration
   async testEmailConfig(): Promise<boolean> {
-    const testSubject = 'IFHE Campus Assistant - Email Test';
+    const testSubject = 'Campus Assistant - Email Test';
     const testContent = `
 <!DOCTYPE html>
 <html>
@@ -233,7 +233,7 @@ export class EmailService {
 </head>
 <body>
     <h2>✅ Email Configuration Test</h2>
-    <p>This is a test email from IFHE Campus Assistant Portal.</p>
+    <p>This is a test email from Campus Assistant Portal.</p>
     <p>If you received this email, the email service is working correctly!</p>
     <p><em>Test sent at: ${new Date().toISOString()}</em></p>
 </body>

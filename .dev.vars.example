@@ -1,4 +1,4 @@
-# Environment Variables for IFHE Campus Assistant Portal
+# Environment Variables for Campus Assistant Portal
 # Copy this file to .dev.vars for local development
 
 # AI Service API Keys

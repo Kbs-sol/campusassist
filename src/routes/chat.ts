@@ -1,4 +1,4 @@
-// Chat API route for IFHE Campus Assistant Portal
+// Chat API route for Campus Assistant Portal
 import { Hono } from 'hono';
 import { AIService } from '../lib/ai';
 import { GoogleSheetsService } from '../lib/sheets';
@@ -87,11 +87,11 @@ chat.post('/', async (c) => {
       console.error('AI Service Error:', aiError);
       
       // Prepare error response
-      const errorMessage = `I apologize, but I'm experiencing technical difficulties right now. Please try again in a moment, or contact IFHE administration directly.
+      const errorMessage = `I apologize, but I'm experiencing technical difficulties right now. Please try again in a moment, or contact campus administration directly.
 
-🏫 **IFHE Hyderabad Contact:**
-- Website: https://ifheindia.org
-- Email: info@ifheindia.org
+🏫 **Campus Contact:**
+- Website: Contact your campus
+- Email: Campus administration
 
 <small><em>Technical support will resolve this issue shortly. Thank you for your patience!</em></small>`;
 
@@ -126,7 +126,7 @@ chat.post('/', async (c) => {
 chat.get('/test', async (c) => {
   return c.json({ 
     status: 'ok', 
-    message: 'IFHE Campus Assistant Chat API is running',
+    message: 'Campus Assistant Chat API is running',
     timestamp: new Date().toISOString()
   });
 });

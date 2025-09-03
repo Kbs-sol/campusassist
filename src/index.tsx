@@ -28,10 +28,84 @@ app.route('/api/admin', admin)
 app.get('/api/health', (c) => {
   return c.json({
     status: 'ok',
-    message: 'IFHE Campus Assistant Portal API is running',
+    message: 'Campus Assistant Portal API is running',
     timestamp: new Date().toISOString(),
     version: '1.0.0'
   })
+})
+
+// Admin login page (hidden route)
+app.get('/admin-login', (c) => {
+  return c.html(`
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Campus Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="/static/styles.css" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-purple-600 via-blue-600 to-purple-800 min-h-screen flex items-center justify-center">
+    <div class="max-w-md w-full mx-4">
+        <div class="bg-white rounded-lg shadow-2xl p-8">
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-shield-alt text-2xl text-purple-600"></i>
+                </div>
+                <h1 class="text-2xl font-bold text-gray-900">Admin Access</h1>
+                <p class="text-gray-600 mt-2">Campus Assistant Portal</p>
+            </div>
+            
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Admin API Key</label>
+                    <input type="password" id="admin-api-key" placeholder="Enter your admin API key" 
+                           class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                </div>
+                
+                <button onclick="adminLogin()" class="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition duration-300 font-semibold">
+                    <i class="fas fa-sign-in-alt mr-2"></i>Sign In
+                </button>
+            </div>
+            
+            <div id="admin-dashboard" class="hidden mt-8">
+                <!-- Admin dashboard will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast container -->
+    <div id="toast-container" class="fixed top-4 right-4 z-50 space-y-2"></div>
+    
+    <!-- Loading overlay -->
+    <div id="loading-overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+        <div class="bg-white rounded-lg p-8 text-center">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+            <p class="text-gray-600">Processing your request...</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
+    <script src="/static/app.js"></script>
+    <script>
+        // Initialize admin login page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Focus on input
+            document.getElementById('admin-api-key').focus();
+            
+            // Enter key submit
+            document.getElementById('admin-api-key').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    adminLogin();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+  `)
 })
 
 // Main frontend page
@@ -42,8 +116,8 @@ app.get('/', (c) => {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IFHE Campus Assistant Portal</title>
-    <meta name="description" content="AI-powered campus assistant for IFHE Hyderabad students - Get answers, register for events, and stay updated with notices">
+    <title>Campus Assistant Portal</title>
+    <meta name="description" content="AI-powered campus assistant for students - Get answers, register for events, and stay updated with notices">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -78,7 +152,7 @@ app.get('/', (c) => {
                     <div class="flex-shrink-0">
                         <h1 class="text-xl font-bold text-ifhe-blue">
                             <i class="fas fa-graduation-cap mr-2"></i>
-                            IFHE Assistant
+                            Campus Assistant
                         </h1>
                     </div>
                     <div class="hidden md:ml-6 md:flex md:space-x-8">
@@ -94,9 +168,7 @@ app.get('/', (c) => {
                         <a href="#notices" class="nav-link text-gray-500 hover:text-gray-900 inline-flex items-center px-1 pt-1 text-sm font-medium">
                             <i class="fas fa-bullhorn mr-2"></i>Notices
                         </a>
-                        <a href="#admin" class="nav-link text-gray-500 hover:text-gray-900 inline-flex items-center px-1 pt-1 text-sm font-medium">
-                            <i class="fas fa-cog mr-2"></i>Admin
-                        </a>
+
                     </div>
                 </div>
                 <div class="flex items-center">
@@ -122,9 +194,7 @@ app.get('/', (c) => {
                 <a href="#notices" class="mobile-nav-link text-gray-500 hover:text-gray-900 block px-3 py-2 text-base font-medium">
                     <i class="fas fa-bullhorn mr-2"></i>Notices
                 </a>
-                <a href="#admin" class="mobile-nav-link text-gray-500 hover:text-gray-900 block px-3 py-2 text-base font-medium">
-                    <i class="fas fa-cog mr-2"></i>Admin
-                </a>
+
             </div>
         </div>
     </nav>
@@ -137,11 +207,11 @@ app.get('/', (c) => {
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
                     <div class="text-center">
                         <h1 class="text-4xl md:text-6xl font-bold mb-6">
-                            Welcome to IFHE
+                            Welcome to
                             <span class="block text-yellow-300">Campus Assistant</span>
                         </h1>
                         <p class="text-xl md:text-2xl mb-8 opacity-90">
-                            Your AI-powered companion for everything IFHE Hyderabad
+                            Your AI-powered companion for campus life
                         </p>
                         <div class="flex flex-col sm:flex-row gap-4 justify-center">
                             <button onclick="showSection('chat')" class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition duration-300">
@@ -204,9 +274,9 @@ app.get('/', (c) => {
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden">
                     <div class="bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-4">
                         <h2 class="text-2xl font-bold text-white">
-                            <i class="fas fa-robot mr-3"></i>IFHE AI Assistant
+                            <i class="fas fa-robot mr-3"></i>Campus AI Assistant
                         </h2>
-                        <p class="text-blue-100">Ask me anything about IFHE Hyderabad!</p>
+                        <p class="text-blue-100">Ask me anything about campus life!</p>
                     </div>
                     
                     <div id="chat-messages" class="h-96 overflow-y-auto p-6 space-y-4">
@@ -216,7 +286,7 @@ app.get('/', (c) => {
                                 <i class="fas fa-robot text-white text-sm"></i>
                             </div>
                             <div class="flex-1 bg-gray-100 rounded-lg p-3">
-                                <p>👋 Hello! I'm your IFHE Campus Assistant. I can help you with:</p>
+                                <p>👋 Hello! I'm your Campus Assistant. I can help you with:</p>
                                 <ul class="mt-2 space-y-1 text-sm">
                                     <li>• Admissions and program information</li>
                                     <li>• Campus facilities and services</li>
@@ -224,7 +294,7 @@ app.get('/', (c) => {
                                     <li>• Student life and activities</li>
                                     <li>• Contact information and directions</li>
                                 </ul>
-                                <p class="mt-2">What would you like to know about IFHE?</p>
+                                <p class="mt-2">What would you like to know about campus?</p>
                             </div>
                         </div>
                     </div>
@@ -237,7 +307,7 @@ app.get('/', (c) => {
                                    class="flex-1 border border-gray-300 rounded-lg px-4 py-2 text-sm">
                         </div>
                         <div class="flex mt-4 space-x-4">
-                            <input type="text" id="chat-input" placeholder="Type your question about IFHE..." 
+                            <input type="text" id="chat-input" placeholder="Type your question about campus..." 
                                    class="flex-1 border border-gray-300 rounded-lg px-4 py-3" maxlength="500">
                             <button id="chat-send" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300">
                                 <i class="fas fa-paper-plane"></i>
@@ -256,7 +326,7 @@ app.get('/', (c) => {
                     <h2 class="text-3xl font-bold text-gray-900 mb-4">
                         <i class="fas fa-calendar-alt mr-3 text-blue-600"></i>Upcoming Events
                     </h2>
-                    <p class="text-lg text-gray-600">Discover and register for exciting events at IFHE Hyderabad</p>
+                    <p class="text-lg text-gray-600">Discover and register for exciting campus events</p>
                 </div>
                 
                 <div id="events-container" class="grid gap-6">
@@ -302,33 +372,12 @@ app.get('/', (c) => {
             </div>
         </section>
 
-        <!-- Admin Section -->
-        <section id="admin" class="section-page hidden">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <div class="mb-8">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-4">
-                        <i class="fas fa-cog mr-3 text-purple-600"></i>Admin Panel
-                    </h2>
-                    <p class="text-lg text-gray-600">Manage events, notices, and monitor chat logs</p>
-                </div>
-                
-                <div id="admin-login" class="max-w-md mx-auto bg-white rounded-lg shadow-lg p-8">
-                    <h3 class="text-xl font-semibold mb-4 text-center">Admin Login</h3>
-                    <div class="space-y-4">
-                        <input type="password" id="admin-api-key" placeholder="Enter Admin API Key" 
-                               class="w-full border border-gray-300 rounded-lg px-4 py-3">
-                        <button onclick="adminLogin()" class="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition duration-300">
-                            <i class="fas fa-sign-in-alt mr-2"></i>Login
-                        </button>
-                    </div>
-                </div>
-                
-                <div id="admin-dashboard" class="hidden">
-                    <!-- Admin dashboard content will be loaded here -->
-                </div>
-            </div>
-        </section>
+
     </main>
+
+    <!-- Hidden admin access trigger (invisible div in corner) -->
+    <div id="hidden-admin-trigger" class="fixed bottom-2 left-2 w-4 h-4 opacity-0 cursor-pointer" 
+         onclick="triggerHiddenAdmin()" title="Admin Access"></div>
 
     <!-- Toast Notifications -->
     <div id="toast-container" class="fixed top-20 right-4 z-50 space-y-2"></div>

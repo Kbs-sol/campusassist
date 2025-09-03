@@ -1,4 +1,4 @@
-// Authentication service for IFHE Campus Assistant Portal
+// Authentication service for Campus Assistant Portal
 import { Context } from 'hono';
 import type { CloudflareBindings } from '../types';
 

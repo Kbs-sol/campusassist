@@ -1,8 +1,8 @@
-// PM2 Ecosystem Configuration for IFHE Campus Assistant Portal
+// PM2 Ecosystem Configuration for Campus Assistant Portal
 module.exports = {
   apps: [
     {
-      name: 'ifhe-campus-assistant',
+      name: 'campus-assistant',
       script: 'npx',
       args: 'wrangler pages dev dist --ip 0.0.0.0 --port 3000',
       cwd: '/home/user/webapp',

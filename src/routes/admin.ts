@@ -1,4 +1,4 @@
-// Admin API routes for IFHE Campus Assistant Portal
+// Admin API routes for Campus Assistant Portal
 import { Hono } from 'hono';
 import { GoogleSheetsService } from '../lib/sheets';
 import { EmailService } from '../lib/email';
@@ -41,7 +41,7 @@ admin.post('/login', async (c) => {
     }
 
     // Create session token
-    const sessionToken = await authService.createSessionToken('admin@ifheindia.org');
+    const sessionToken = await authService.createSessionToken('admin@campus.edu');
 
     return c.json({
       success: true,
@@ -49,7 +49,7 @@ admin.post('/login', async (c) => {
       token: sessionToken,
       expires_in: 86400, // 24 hours
       user: {
-        email: 'admin@ifheindia.org',
+        email: 'admin@campus.edu',
         role: 'admin'
       }
     });

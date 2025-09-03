@@ -1,4 +1,4 @@
-// Notices API routes for IFHE Campus Assistant Portal
+// Notices API routes for Campus Assistant Portal
 import { Hono } from 'hono';
 import { GoogleSheetsService } from '../lib/sheets';
 import { AuthService, requireAdmin, rateLimit } from '../lib/auth';

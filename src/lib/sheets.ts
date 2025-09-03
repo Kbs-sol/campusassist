@@ -1,4 +1,4 @@
-// Google Sheets integration for IFHE Campus Assistant Portal
+// Google Sheets integration for Campus Assistant Portal
 import type { CloudflareBindings, GoogleSheetsRow, Event, Notice, Registration, ChatLog } from '../types';
 
 export class GoogleSheetsService {

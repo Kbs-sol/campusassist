@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "ifhe-campus-assistant",
+  "name": "campus-assistant",
   "compatibility_date": "2025-09-01",
   "pages_build_output_dir": "./dist",
   "compatibility_flags": [
@@ -8,7 +8,7 @@
   ]
   
   // Environment variables can be set using:
-  // - wrangler pages secret put VARIABLE_NAME --project-name ifhe-campus-assistant
+  // - wrangler pages secret put VARIABLE_NAME --project-name campus-assistant
   // - Local development: Create .dev.vars file (see .dev.vars.example)
   
   // Required environment variables for production:

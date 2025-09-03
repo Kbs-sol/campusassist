@@ -69,6 +69,40 @@ function formatRelativeDate(dateString) {
     return date.toLocaleDateString('en-IN', { month: 'short', day: 'numeric' });
 }
 
+// Hidden admin access functions
+let keySequence = '';
+let keySequenceTimer;
+
+function checkKeySequence(e) {
+    // Clear previous timer
+    clearTimeout(keySequenceTimer);
+    
+    // Add key to sequence
+    keySequence += e.key.toLowerCase();
+    
+    // Check for Shift+Alt+A combination
+    if (e.shiftKey && e.altKey && e.key.toLowerCase() === 'a') {
+        window.location.href = '/admin-login';
+        return;
+    }
+    
+    // Reset sequence after 2 seconds
+    keySequenceTimer = setTimeout(() => {
+        keySequence = '';
+    }, 2000);
+}
+
+function triggerHiddenAdmin() {
+    window.location.href = '/admin-login';
+}
+
+function checkSecretURL() {
+    const url = window.location.href;
+    if (url.includes('?VJ') || url.includes('/VJ') || url.endsWith('VJ')) {
+        window.location.href = '/admin-login';
+    }
+}
+
 // Navigation Functions
 function showSection(sectionId) {
     // Update state
@@ -802,10 +836,19 @@ function adminLogout() {
 
 // Event Listeners
 document.addEventListener('DOMContentLoaded', function() {
-    // Mobile menu toggle
-    document.getElementById('mobile-menu-button').addEventListener('click', toggleMobileMenu);
+    // Check for secret URL on load
+    checkSecretURL();
     
-    // Navigation links
+    // Listen for key combinations
+    document.addEventListener('keydown', checkKeySequence);
+    
+    // Mobile menu toggle (if element exists)
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    if (mobileMenuButton) {
+        mobileMenuButton.addEventListener('click', toggleMobileMenu);
+    }
+    
+    // Navigation links (if they exist)
     document.querySelectorAll('.nav-link, .mobile-nav-link').forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
@@ -814,21 +857,23 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Chat functionality
+    // Chat functionality (if elements exist)
     const chatInput = document.getElementById('chat-input');
     const chatSend = document.getElementById('chat-send');
     
-    chatInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            sendChatMessage();
-        }
-    });
-    
-    chatSend.addEventListener('click', sendChatMessage);
-    
-    // Initialize with home section
-    showSection('home');
+    if (chatInput && chatSend) {
+        chatInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendChatMessage();
+            }
+        });
+        
+        chatSend.addEventListener('click', sendChatMessage);
+        
+        // Initialize with home section
+        showSection('home');
+    }
 });
 
 // Make functions available globally

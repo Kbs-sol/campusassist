@@ -1,4 +1,4 @@
-// Multi-AI fallback service for IFHE Campus Assistant
+// Multi-AI fallback service for Campus Assistant
 import type { CloudflareBindings, ChatResponse, SearchResult } from '../types';
 
 export class AIService {
@@ -15,7 +15,7 @@ export class AIService {
     }
 
     try {
-      const searchUrl = `https://www.googleapis.com/customsearch/v1?key=${this.env.GOOGLE_CSE_API_KEY}&cx=${this.env.GOOGLE_CSE_ID}&q=${encodeURIComponent(query + ' site:ifheindia.org')}&num=5`;
+      const searchUrl = `https://www.googleapis.com/customsearch/v1?key=${this.env.GOOGLE_CSE_API_KEY}&cx=${this.env.GOOGLE_CSE_ID}&q=${encodeURIComponent(query)}&num=5`;
       
       const response = await fetch(searchUrl);
       const data = await response.json();
@@ -222,33 +222,26 @@ export class AIService {
   }
 
   private getSystemPrompt(): string {
-    return `You are an AI assistant for IFHE (Indian School of Business & Finance) Hyderabad campus. You should ONLY answer questions related to IFHE Hyderabad, its programs, admissions, campus life, facilities, faculty, events, and student services.
-
-Key information about IFHE:
-- Full name: Indian School of Business & Finance (IFHE) Hyderabad
-- Programs: MBA, BBA, B.Com, M.Com, PhD programs
-- Campus located in Hyderabad, India
-- Focus on business, finance, and management education
-- Strong industry connections and placement support
+    return `You are an AI assistant for a university campus. You should ONLY answer questions related to the campus, its programs, admissions, campus life, facilities, faculty, events, and student services.
 
 Guidelines:
-1. Answer ONLY about IFHE Hyderabad - politely decline questions about other topics
+1. Answer ONLY about campus-related topics - politely decline questions about other topics
 2. Be helpful, accurate, and informative
-3. If you don't know specific details, suggest contacting IFHE administration
+3. If you don't know specific details, suggest contacting the campus administration
 4. Provide practical advice for prospective and current students
 5. Keep responses concise but comprehensive
 6. Use a friendly, professional tone suitable for students
 
-If asked about topics unrelated to IFHE, respond: "I'm specifically designed to help with questions about IFHE Hyderabad. Please ask me about admissions, programs, campus facilities, or student services at IFHE."`;
+If asked about topics unrelated to the campus, respond: "I'm specifically designed to help with questions about campus life, programs, and student services. Please ask me about admissions, programs, campus facilities, or student services."`;
   }
 
   private getErrorMessage(): string {
-    return `I apologize, but I'm currently unable to process your question due to technical issues. Please try again in a moment or contact IFHE administration directly for immediate assistance.
+    return `I apologize, but I'm currently unable to process your question due to technical issues. Please try again in a moment or contact the campus administration directly for immediate assistance.
 
-🏫 **IFHE Hyderabad Contact:**
-- Website: https://ifheindia.org
-- Phone: +91-40-xxxx-xxxx
-- Email: info@ifheindia.org
+🏫 **Campus Contact:**
+- Website: Contact your campus administration
+- Phone: Campus main number
+- Email: Campus administration email
 
 <small><em>Our AI assistant will be back online shortly. Thank you for your patience!</em></small>`;
   }

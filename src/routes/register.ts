@@ -1,4 +1,4 @@
-// Registration API routes for IFHE Campus Assistant Portal
+// Registration API routes for Campus Assistant Portal
 import { Hono } from 'hono';
 import { GoogleSheetsService } from '../lib/sheets';
 import { EmailService } from '../lib/email';
@@ -224,10 +224,10 @@ register.post('/cancel', async (c) => {
     return c.json({
       success: false,
       error: 'Cancellation feature not yet implemented',
-      message: 'Please contact IFHE administration to cancel your registration',
+      message: 'Please contact campus administration to cancel your registration',
       contact: {
-        email: 'info@ifheindia.org',
-        phone: '+91-40-xxxx-xxxx'
+        email: 'admin@campus.edu',
+        phone: 'Campus main number'
       }
     });
 
