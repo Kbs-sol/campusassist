@@ -18,8 +18,65 @@ app.use('*', corsMiddleware())
 app.use('/static/*', serveStatic({ root: './public' }))
 
 // Serve robots.txt and sitemap.xml
-app.get('/robots.txt', serveStatic({ path: './public/robots.txt' }))
-app.get('/sitemap.xml', serveStatic({ path: './public/sitemap.xml' }))
+app.get('/robots.txt', (c) => {
+  return c.text(`User-agent: *
+Allow: /
+Allow: /static/
+
+# Block admin routes from search engines
+Disallow: /admin-login
+Disallow: /admin
+Disallow: /api/admin/
+Disallow: /VJ
+
+# Allow public API endpoints for documentation purposes
+Allow: /api/health
+Allow: /api/events
+Allow: /api/notices
+Allow: /api/chat
+Allow: /api/register
+
+# Sitemap location
+Sitemap: https://campus-assistant.pages.dev/sitemap.xml`)
+})
+
+app.get('/sitemap.xml', (c) => {
+  return c.text(`<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Main public pages -->
+  <url>
+    <loc>https://campus-assistant.pages.dev/</loc>
+    <lastmod>2024-09-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <!-- Public API endpoints (for documentation) -->
+  <url>
+    <loc>https://campus-assistant.pages.dev/api/health</loc>
+    <lastmod>2024-09-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://campus-assistant.pages.dev/api/events</loc>
+    <lastmod>2024-09-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://campus-assistant.pages.dev/api/notices</loc>
+    <lastmod>2024-09-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Note: Admin routes intentionally excluded from sitemap -->
+  <!-- /admin-login, /admin/*, /api/admin/* are hidden -->
+</urlset>`, 200, { 'Content-Type': 'application/xml' })
+})
 
 // API Routes
 app.route('/api/chat', chat)
