@@ -230,7 +230,7 @@ admin.get('/analytics', async (c) => {
       const words = log.question.toLowerCase()
         .split(/\s+/)
         .filter(word => word.length > 3)
-        .filter(word => !['what', 'when', 'where', 'how', 'why', 'which', 'about', 'ifhe'].includes(word));
+        .filter(word => !['what', 'when', 'where', 'how', 'why', 'which', 'about', 'campus'].includes(word));
       
       words.forEach(word => {
         questionKeywords[word] = (questionKeywords[word] || 0) + 1;
@@ -292,7 +292,7 @@ admin.get('/analytics', async (c) => {
 admin.post('/test-email', async (c) => {
   try {
     const body = await c.req.json();
-    const testEmail = body.email || 'admin@ifheindia.org';
+    const testEmail = body.email || 'admin@campus.edu';
 
     if (!validateEmail(testEmail)) {
       return c.json({ error: 'Invalid email format' }, 400);

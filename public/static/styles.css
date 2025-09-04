@@ -1,4 +1,4 @@
-/* Custom styles for IFHE Campus Assistant Portal */
+/* Custom styles for Campus Assistant Portal */
 
 /* Smooth scrolling */
 html {
@@ -6,7 +6,7 @@ html {
 }
 
 /* Custom gradient backgrounds */
-.bg-ifhe-gradient {
+.bg-campus-gradient {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 

@@ -1,4 +1,4 @@
-// Type definitions for IFHE Campus Assistant Portal
+// Type definitions for Campus Assistant Portal
 
 export interface CloudflareBindings {
   // Environment variables will be available here

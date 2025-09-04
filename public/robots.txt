@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+Allow: /static/
+
+# Block admin routes from search engines
+Disallow: /admin-login
+Disallow: /admin
+Disallow: /api/admin/
+Disallow: /VJ
+
+# Allow public API endpoints for documentation purposes
+Allow: /api/health
+Allow: /api/events
+Allow: /api/notices
+Allow: /api/chat
+Allow: /api/register
+
+# Sitemap location
+Sitemap: https://campus-assistant.pages.dev/sitemap.xml

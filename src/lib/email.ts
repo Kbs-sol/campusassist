@@ -25,15 +25,15 @@ export class EmailService {
         },
         body: JSON.stringify({
           service_id: this.env.SMTP_HOST,
-          template_id: 'ifhe_template',
+          template_id: 'campus_template',
           user_id: this.env.SMTP_USER,
           accessToken: this.env.SMTP_PASS,
           template_params: {
             to_email: to,
             subject: subject,
             html_content: htmlContent,
-            from_name: 'IFHE Campus Assistant',
-            from_email: 'noreply@ifheindia.org'
+            from_name: 'Campus Assistant',
+            from_email: 'noreply@campus.edu'
           }
         }),
       });
@@ -100,7 +100,7 @@ export class EmailService {
             <p>Please save this email for your records. If you have any questions or need to make changes, please contact us.</p>
             
             <div style="text-align: center;">
-                <a href="https://ifheindia.org" class="button">Visit IFHE Website</a>
+                <a href="#" class="button">Visit Campus Website</a>
             </div>
             
             <p><strong>Important Notes:</strong></p>

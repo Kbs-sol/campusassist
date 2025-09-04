@@ -1,4 +1,4 @@
-// IFHE Campus Assistant Portal - Main JavaScript Application
+// Campus Assistant Portal - Main JavaScript Application
 
 // Global state management
 const AppState = {

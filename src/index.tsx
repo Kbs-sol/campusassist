@@ -17,6 +17,10 @@ app.use('*', corsMiddleware())
 // Serve static files from public directory
 app.use('/static/*', serveStatic({ root: './public' }))
 
+// Serve robots.txt and sitemap.xml
+app.get('/robots.txt', serveStatic({ path: './public/robots.txt' }))
+app.get('/sitemap.xml', serveStatic({ path: './public/sitemap.xml' }))
+
 // API Routes
 app.route('/api/chat', chat)
 app.route('/api/events', events)
@@ -134,9 +138,9 @@ app.get('/', (c) => {
             theme: {
                 extend: {
                     colors: {
-                        'ifhe-blue': '#2563eb',
-                        'ifhe-purple': '#7c3aed',
-                        'ifhe-gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                        'campus-blue': '#2563eb',
+                        'campus-purple': '#7c3aed',
+                        'campus-gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
                     }
                 }
             }
@@ -150,7 +154,7 @@ app.get('/', (c) => {
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <div class="flex-shrink-0">
-                        <h1 class="text-xl font-bold text-ifhe-blue">
+                        <h1 class="text-xl font-bold text-campus-blue">
                             <i class="fas fa-graduation-cap mr-2"></i>
                             Campus Assistant
                         </h1>
@@ -229,7 +233,7 @@ app.get('/', (c) => {
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl font-bold text-gray-900 mb-4">What Can I Help You With?</h2>
-                    <p class="text-lg text-gray-600">Discover all the ways our AI assistant can help you at IFHE</p>
+                    <p class="text-lg text-gray-600">Discover all the ways our AI assistant can help you on campus</p>
                 </div>
                 
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -238,7 +242,7 @@ app.get('/', (c) => {
                             <i class="fas fa-brain text-2xl text-blue-600"></i>
                         </div>
                         <h3 class="text-xl font-semibold mb-2">AI Chat Assistant</h3>
-                        <p class="text-gray-600">Get instant answers about IFHE programs, admissions, facilities, and more</p>
+                        <p class="text-gray-600">Get instant answers about campus programs, admissions, facilities, and more</p>
                     </div>
                     
                     <div class="text-center p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300">
